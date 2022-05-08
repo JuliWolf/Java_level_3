@@ -7,57 +7,23 @@ public class WaitNotifyClass {
 
     public static void main(String[] args) {
         WaitNotifyClass waitNotifyObj = new WaitNotifyClass();
-        Thread threadA = new Thread(waitNotifyObj::printA);
-        Thread threadB = new Thread(waitNotifyObj::printB);
-        Thread threadC = new Thread(waitNotifyObj::printC);
+        Thread threadA = new Thread(() -> waitNotifyObj.printChar('A', 'B'));
+        Thread threadB = new Thread(() -> waitNotifyObj.printChar('B', 'C'));
+        Thread threadC = new Thread(() -> waitNotifyObj.printChar('C', 'A'));
         threadA.start();
         threadB.start();
         threadC.start();
     }
 
-    public void printA() {
+    public void printChar(char sym, char nextSym) {
         synchronized (mon) {
             try {
                 for (int i = 0; i < LENGTH; i++) {
-                    while (currentLetter != 'A') {
+                    while (currentLetter != sym) {
                         mon.wait();
                     }
-                    System.out.print("A");
-                    currentLetter = 'B';
-                    mon.notifyAll();
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public void printB() {
-        synchronized (mon) {
-            try {
-                for (int i = 0; i < LENGTH; i++) {
-                    while (currentLetter != 'B') {
-                        mon.wait();
-                    }
-                    System.out.print("B");
-                    currentLetter = 'C';
-                    mon.notifyAll();
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public void printC() {
-        synchronized (mon) {
-            try {
-                for (int i = 0; i < LENGTH; i++) {
-                    while (currentLetter != 'C') {
-                        mon.wait();
-                    }
-                    System.out.print("C");
-                    currentLetter = 'A';
+                    System.out.print(sym);
+                    currentLetter = nextSym;
                     mon.notifyAll();
                 }
             } catch (InterruptedException e) {
