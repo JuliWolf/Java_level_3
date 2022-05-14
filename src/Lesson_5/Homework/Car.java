@@ -26,13 +26,11 @@ public class Car implements Runnable {
             Race race,
             int speed,
             CyclicBarrier prepareBarrier,
-            CyclicBarrier readyBarrier,
             CyclicBarrier raceBarrier
     ) {
         this.race = race;
         this.speed = speed;
         this.raceBarrier = raceBarrier;
-        this.readyBarrier = readyBarrier;
         this.prepareBarrier = prepareBarrier;
 
         CARS_COUNT++;
@@ -46,8 +44,7 @@ public class Car implements Runnable {
             prepareBarrier.await();
 
             System.out.println(this.name + " готов");
-            Thread.sleep(100);
-            readyBarrier.await();
+            prepareBarrier.await();
 
             for (int i = 0; i < race.getStages().size(); i++) {
                 race.getStages().get(i).go(this);
