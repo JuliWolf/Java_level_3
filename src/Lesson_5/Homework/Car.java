@@ -12,9 +12,8 @@ public class Car implements Runnable {
     private int speed;
     private String name;
 
-    CyclicBarrier prepareBarrier;
-    CyclicBarrier raceBarrier;
-    CyclicBarrier readyBarrier;
+    private CyclicBarrier prepareBarrier;
+    private CyclicBarrier raceBarrier;
 
     public String getName() {
         return name;

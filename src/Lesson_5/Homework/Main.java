@@ -10,11 +10,10 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Подготовка!!!");
 
-        final Semaphore tunnelSemaphore = new Semaphore(CARS_COUNT/2);
         final CyclicBarrier prepareBarrier = new CyclicBarrier(CARS_COUNT + 1);
         final CyclicBarrier raceBarrier = new CyclicBarrier(CARS_COUNT);
 
-        Race race = new Race(new Road(60), new Tunnel(tunnelSemaphore), new Road(40));
+        Race race = new Race(new Road(60), new Tunnel(CARS_COUNT/2), new Road(40));
         Car[] cars = new Car[CARS_COUNT];
 
         for (int i = 0; i < cars.length; i++) {
